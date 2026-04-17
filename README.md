@@ -3,15 +3,15 @@
 <picture>
   <source
     width="100%"
-    srcset="https://github.com/OopsYouDiedE/OpenClawDiscord/blob/main/OpenClaw-Discord-Banner.png"
+    srcset="https://raw.githubusercontent.com/OopsYouDiedE/OpenClawDiscord/main/OpenClaw-Discord-Banner.png"
     media="(prefers-color-scheme: dark)"
   />
   <source
     width="100%"
-    srcset="https://raw.githubusercontent.com/OopsYouDiedE/OpenClawDiscord/main/OpenClaw-Discord-Banner.png"
+    srcset="https://github.com/OopsYouDiedE/OpenClawDiscord/blob/main/OpenClaw-Discord-Banner.png"
     media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"
   />
-  <img width="100%" src="https://raw.githubusercontent.com/OopsYouDiedE/OpenClawDiscord/main/OpenClaw-Discord-Banner.png" alt="OpenClaw Banner" />
+  <img width="100%" src="https://github.com/OopsYouDiedE/OpenClawDiscord/blob/main/OpenClaw-Discord-Banner.png" alt="OpenClaw Banner" />
 </picture>
 
 <h1 align="center">OpenClawDiscord (Stelle)</h1>
