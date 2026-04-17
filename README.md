@@ -3,15 +3,15 @@
 <picture>
   <source
     width="100%"
-    srcset="https://your-image-hosting-link/banner.png"
+    srcset="https://raw.githubusercontent.com/OopsYouDiedE/OpenClawDiscord/main/OpenClaw-Discord-Banner.png"
     media="(prefers-color-scheme: dark)"
   />
   <source
     width="100%"
-    srcset="https://your-image-hosting-link/banner.png"
+    srcset="https://raw.githubusercontent.com/OopsYouDiedE/OpenClawDiscord/main/OpenClaw-Discord-Banner.png"
     media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"
   />
-  <img width="100%" src="https://your-image-hosting-link/banner.png" alt="OpenClaw Banner" />
+  <img width="100%" src="https://raw.githubusercontent.com/OopsYouDiedE/OpenClawDiscord/main/OpenClaw-Discord-Banner.png" alt="OpenClaw Banner" />
 </picture>
 
 <h1 align="center">OpenClawDiscord (Stelle)</h1>
@@ -19,13 +19,12 @@
 <p align="center">让 AI 从工具真正成为人类的陪伴者，安全、自主地与人类建立情感连接。</p>
 
 <p align="center">
-  [<a href="https://discord.com/oauth2/authorize?client_id=1484173471100436685&permissions=377957194816&integration_type=0&scope=bot">立即邀请</a>] [<a href="https://github.com/OopsYouDiedE/OpenClawDiscord/wiki">查看文档</a>] [<a href="./README.en-US.md">English</a>] [<a href="./README.ja-JP.md">日本語</a>]
+  [<a href="https://discord.gg/uyrms6cv5z">立即邀请</a>] [<a href="https://github.com/OopsYouDiedE/OpenClawDiscord/wiki">查看文档</a>] [<a href="./README.en-US.md">English</a>] [<a href="./README.ja-JP.md">日本語</a>]
 </p>
 
 <p align="center">
   <a href="https://github.com/OopsYouDiedE/OpenClawDiscord/blob/main/LICENSE"><img src="https://img.shields.io/github/license/OopsYouDiedE/OpenClawDiscord.svg?style=flat&colorA=080f12&colorB=1fa669"></a>
-  <a href="YOUR_DISCORD_INVITE_LINK"><img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fdiscord.com%2Fapi%2Finvites%2FYOUR_INVITE_CODE%3Fwith_counts%3Dtrue&query=%24.approximate_member_count&suffix=%20members&logo=discord&logoColor=white&label=%20&color=7389D8&labelColor=6A7EC2"></a>
-  <a href="https://img.shields.io/badge/Tech-TypeScript-blue?style=flat&logo=typescript"><img src="https://img.shields.io/badge/Tech-TypeScript-blue?style=flat&logo=typescript"></a>
+  <a href="https://discord.gg/uyrms6cv5z"><img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fdiscord.com%2Fapi%2Finvites%2Fuyrms6cv5z%3Fwith_counts%3Dtrue&query=%24.approximate_member_count&suffix=%20members&logo=discord&logoColor=white&label=%20&color=7389D8&labelColor=6A7EC2"></a>
   <a href="https://img.shields.io/badge/Concept-Digital%20Life-FF6600?style=flat"><img src="https://img.shields.io/badge/Concept-Digital%20Life-FF6600?style=flat"></a>
 </p>
 </div>
@@ -111,3 +110,4 @@ Made with ❤️ by \<a href="https://www.google.com/search?q=https://github.com
 \<img src="https://www.google.com/search?q=https://api.star-history.com/svg%3Frepos%3DOopsYouDiedE/OpenClawDiscord%26type%3DDate" alt="Star History Chart"\>
 \</a\>
 \</p\>
+
