@@ -340,6 +340,7 @@ class MemoryManager:
             )
             content = resp.choices[0].message.content
             if not content: raise ValueError("API 空响应")
+            content = re.sub(r'<thought>.*?(?:</thought>|$)', '', content, flags=re.DOTALL | re.IGNORECASE)
             events = parse_json(content).get("events", [])
         except Exception as e:
             await send_log_embed(f"❌ [Memory Review - {source}] 异常", str(e), disnake.Color.red())
@@ -380,7 +381,9 @@ class MemoryManager:
                     model=model, messages=[{"role": "system", "content": MEMORY_DISTILL_PROMPT.format(user_id=uid)}, {"role": "user", "content": "\n".join(related)}],
                     temperature=0.5, max_tokens=2048
                 )
-                if imp := (resp.choices[0].message.content or "").strip():
+                raw_content = (resp.choices[0].message.content or "").strip()
+                raw_content = re.sub(r'<thought>.*?(?:</thought>|$)', '', raw_content, flags=re.DOTALL | re.IGNORECASE)
+                if imp := raw_content:
                     await self._update_user_impression(uid, imp)
             except Exception as e: 
                 print(f"[MemoryDistill Error] uid={uid}: {e}")
@@ -483,7 +486,9 @@ class ChannelManager:
                 user_msg = f"Active: {participants}\nFocus: {self.focus}\nHistory:\n" + "\n".join(list(self._history)[-10:])
                 
                 resp = await client.chat.completions.create(model=llm_cfg["model"], messages=[{"role": "system", "content": sys_p}, {"role": "user", "content": user_msg}], response_format={"type": "json_object"}, temperature=0.3, max_tokens=2048)
-                return parse_json(resp.choices[0].message.content or "")
+                judge_content = resp.choices[0].message.content or ""
+                judge_content = re.sub(r'<thought>.*?(?:</thought>|$)', '', judge_content, flags=re.DOTALL | re.IGNORECASE)
+                return parse_json(judge_content)
             else:
                 intent, recall_uid = kwargs.get('intent', {}), kwargs.get('recall_user_id')
                 mem_ctx = await self.memory_manager.load_context(self.guild_id, int(recall_uid) if recall_uid else None)
