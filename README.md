@@ -3,7 +3,7 @@
 <picture>
   <source
     width="100%"
-    srcset="https://raw.githubusercontent.com/OopsYouDiedE/OpenClawDiscord/main/OpenClaw-Discord-Banner.png"
+    srcset="https://github.com/OopsYouDiedE/OpenClawDiscord/blob/main/OpenClaw-Discord-Banner.png"
     media="(prefers-color-scheme: dark)"
   />
   <source
