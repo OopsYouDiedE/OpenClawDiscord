@@ -1,0 +1,5 @@
+aiofiles
+PyYAML
+disnake
+python-dotenv
+openai
