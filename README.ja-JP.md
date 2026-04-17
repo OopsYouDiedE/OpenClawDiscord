@@ -20,18 +20,13 @@
 <p align="center">
   [<a href="https://discord.gg/uyrms6cv5z">今すぐ招待</a>] [<a href="https://github.com/OopsYouDiedE/OpenClawDiscord/wiki">ドキュメント</a>] [<a href="./README.md">中文</a>] [<a href="./README.en-US.md">English</a>]
 </p>
-
-<p align="center">
-  <a href="https://github.com/OopsYouDiedE/OpenClawDiscord/blob/main/LICENSE"><img src="https://img.shields.io/github/license/OopsYouDiedE/OpenClawDiscord.svg?style=flat&colorA=080f12&colorB=1fa669"></a>
-  <a href="https://discord.gg/uyrms6cv5z"><img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fdiscord.com%2Fapi%2Finvites%2Fuyrms6cv5z%3Fwith_counts%3Dtrue&query=%24.approximate_member_count&suffix=%20members&logo=discord&logoColor=white&label=%20&color=7389D8&labelColor=6A7EC2"></a>
-  <a href="https://img.shields.io/badge/Concept-Digital%20Life-FF6600?style=flat"><img src="https://img.shields.io/badge/Concept-Digital%20Life-FF6600?style=flat"></a>
-</p>
-</div>
-
 ---
 
 ## 📅 オープンソースへのコミットメント
 
+OpenClawDiscord はオープンソースプロジェクトです。貢献、Issue、ディスカッションを歓迎します。詳細はリポジトリと Wiki をご覧ください。
+
+---
 **OpenClawDiscord** は現在、内部インキュベーション段階とコア機能の継続的な反復処理の段階にあります。私たちはコミュニティの力を信じており、明確なオープンソースマイルストーンを設定しています：
 
 * **目標：** このプロジェクトが **1,000 の GitHub Star** に達するとき。

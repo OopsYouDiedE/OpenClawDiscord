@@ -20,18 +20,13 @@
 <p align="center">
   [<a href="https://discord.gg/uyrms6cv5z">Invite Now</a>] [<a href="https://github.com/OopsYouDiedE/OpenClawDiscord/wiki">Documentation</a>] [<a href="./README.md">中文</a>] [<a href="./README.ja-JP.md">日本語</a>]
 </p>
-
-<p align="center">
-  <a href="https://github.com/OopsYouDiedE/OpenClawDiscord/blob/main/LICENSE"><img src="https://img.shields.io/github/license/OopsYouDiedE/OpenClawDiscord.svg?style=flat&colorA=080f12&colorB=1fa669"></a>
-  <a href="https://discord.gg/uyrms6cv5z"><img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fdiscord.com%2Fapi%2Finvites%2Fuyrms6cv5z%3Fwith_counts%3Dtrue&query=%24.approximate_member_count&suffix=%20members&logo=discord&logoColor=white&label=%20&color=7389D8&labelColor=6A7EC2"></a>
-  <a href="https://img.shields.io/badge/Concept-Digital%20Life-FF6600?style=flat"><img src="https://img.shields.io/badge/Concept-Digital%20Life-FF6600?style=flat"></a>
-</p>
-</div>
-
 ---
 
 ## 📅 Open Source Commitment
 
+OpenClawDiscord is an open-source project. Contributions, issues, and discussions are welcome — please see the repository and wiki for details.
+
+---
 **OpenClawDiscord** is currently in internal incubation with continuous core feature iteration. We believe in the power of community and have set clear open source milestones:
 
 * **Goal:** When this project reaches **1,000 GitHub Stars**.

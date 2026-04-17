@@ -1,4 +1,3 @@
-
 <div align="center">
 <picture>
   <source
@@ -31,41 +30,21 @@
 
 ---
 
-## 📅 开源承诺 (Open Source Commitment)
-
-目前 **OpenClawDiscord** 处于内部孵化与核心功能迭代阶段。我们深信社区的力量，并设立了明确的开源里程碑：
-
-* **目标：** 当本项目的 GitHub **Stars 达到 1,000** 时。
-* **行动：** 我们将完整开放本项目的所有源代码（包括核心认知引擎、三层记忆模型逻辑及 Discord 适配层），并转向社区驱动开发。
-
-> [!TIP]
-> 如果你认可“数字生命”与“情感伴侣”的愿景，请为本项目点上一颗 **Star**，帮助我们更早实现开源目标。
-
----
-
 ## 🌟 核心强力特性 (Core Features)
 
-- [x] **🧠 认知与记忆系统**
-  - **三层记忆沉淀**：自动从日常对话中提取关键事件，构建从瞬时反应到长期历史的认知链条。
-  - **全局人物画像**：基于 UID 锁定生成的“性格侧写”，让 Stelle 能够像老朋友一样记住每位用户的偏好与习惯。
-- [x] **🎭 自主决策引擎**
-  - **氛围感知 (Vibe Check)**：实时分析频道情绪，Stelle 会根据“空气”决定是安静旁观还是主动介入调侃。
-  - **主动情感反馈**：它拥有自己的性格偏好，可能因为你的关心而喜悦，也可能因为被忽视而展现“小脾气”。
-- [x] **🛡️ 安全与秩序**
-  - **情感边界保护**：在建立连接的同时，内置严格的安全过滤与隐私抹除指令（`/forget_me`）。
-  - **智能内容适配**：自动折叠长代码或复杂分析内容，保持频道社交空间的整洁。
+本项目完全开源，基于 Python 与 `disnake` 构建，支持接入 OpenAI 或兼容 OpenRouter 的 LLM 接口。
 
----
-
-## 📸 代码截图与实现证明
-
-![代码实现截图](./代码截图.png)
-
-上图为本项目核心 `retrieve_history()` 函数的实现，展示了：
-- 三层记忆沉淀的查询与整合逻辑
-- 批量消息处理与权限检查
-- 中英文混合的动态反馈机制
-- 异步内存管理与回顾功能
+- [x] **🧠 跨频道的本地 Markdown 记忆引擎**
+  - **三层记忆沉淀**：实时上下文队列 (Deque) -> 中期通道事件摘要 (`channel_id.md`) -> 长期全局人物画像 (`user_id.md`)。
+  - **基于 UID 的用户溯源**：无论用户在哪个群组（甚至修改了昵称），Stelle 都能通过全局索引 (`index.json`) 认出“老朋友”。
+- [x] **🎭 自主决策与“读空气” (Vibe Check)**
+  - 内置 `Judge` 裁判模型：实时分析频道情绪，决定是安静旁观、被动记录，还是在沉默时主动抛出话题（支持设定延迟触发）。
+  - **防沉迷与刷屏过滤**：自带 AntiSpam 机制，并支持 `/shut_up` 让机器人立刻静音。
+- [x] **⚙️ 灵活的多服务器/多模型配置**
+  - **独立 API 设定**：支持通过 `/set_api` 为不同服务器单独配置 Model、API Key 和 Base URL。
+  - **群组参数微调**：随时通过 `/config` 调整频道触发总结的阈值和上下文长度。
+- [x] **🛡️ 绝对的数据主权**
+  - 提供 `/forget_me` 指令，一键销毁 AI 对你的所有跨服全局记忆（物理删除本地 Markdown 档案）。
 
 ---
 
@@ -73,23 +52,119 @@
 
 ```mermaid
 graph TD
-    User([Discord User]) -->|Interaction| DiscordAPI[Discord API]
+    User([Discord User]) -->|Interaction| DiscordAPI[Discord API / disnake]
     DiscordAPI -->|Event Stream| Engine[OpenClaw Cognitive Engine]
     
-    subgraph Memory_Space [认知与记忆空间]
-        Engine -->|Perception| STM[短期记忆: 实时对话流]
-        STM -->|Synthesis| MTM[中期记忆: 社交事件摘要]
-        MTM -->|Generalization| LTM[长期记忆: 全局人物画像]
+    subgraph Memory_Space [本地认知与记忆空间]
+        Engine -->|Perception| STM[短期记忆: 内存 Deque 队列]
+        STM -->|Review Prompt| MTM[中期记忆: 频道事件 .md]
+        MTM -->|Distill Prompt| LTM[长期记忆: 全局人物侧写 .md]
     end
     
-    Engine -->|Mood Check| Router{Decision Router}
-    Router -->|Proactive| ActiveMsg[自主发言/主动破冰]
-    Router -->|Reactive| Respond[针对性回应/调侃]
-    Router -->|Observe| Silence[安静观察/读空气]
+    Engine -->|Mood Check / Judge| Router{Decision Router}
+    Router -->|Fire Now| ActiveMsg[主动回应 / 调侃]
+    Router -->|Wait Condition| Timer[倒计时介入 / 话题接力]
+    Router -->|Pass| Silence[安静观察 / 更新上下文]
     
     ActiveMsg --> DiscordAPI
-    Respond --> DiscordAPI
 ````
+
+-----
+
+## 📦 部署与开发 (Deployment & Development)
+
+### 1\. 系统要求与环境准备
+
+  - **Python**：3.10 或更高版本
+  - **Token**：一个有效的 Discord Bot Token (需在 Developer Portal 开启全部 Intents)
+  - **API Key**：OpenAI 格式的 API 密钥（也支持 OpenRouter 等第三方中转）
+
+首先，克隆仓库并配置环境变量：
+
+```bash
+git clone [https://github.com/OopsYouDiedE/OpenClawDiscord.git](https://github.com/OopsYouDiedE/OpenClawDiscord.git)
+cd OpenClawDiscord
+
+# 复制或创建环境变量文件
+cp .env.example .env
+```
+
+在 `.env` 文件中填入以下内容：
+
+```ini
+DISCORD_TOKEN=your_discord_bot_token_here
+OPENAI_API_KEY=your_openai_or_openrouter_api_key_here
+# OPENROUTER_API_KEY=备用键名
+```
+
+### 2\. 安装依赖 (支持 pip 与 uv)
+
+我们推荐使用 [uv](https://github.com/astral-sh/uv) 极速构建虚拟环境，你也可以使用传统的 `pip`。
+
+<details open>
+<summary><b>选项 A: 使用 uv 安装 (推荐，速度极快)</b></summary>
+
+```bash
+# 1. 如果未安装 uv，先全局安装
+curl -LsSf [https://astral.sh/uv/install.sh](https://astral.sh/uv/install.sh) | sh
+
+# 2. 创建并激活虚拟环境
+uv venv
+source .venv/bin/activate  # Windows 用户使用 .venv\Scripts\activate
+
+# 3. 安装所需依赖
+uv pip install disnake openai aiofiles pyyaml python-dotenv
+```
+
+</details>
+
+<details>
+<summary><b>选项 B: 使用原生 pip 安装</b></summary>
+
+```bash
+# 1. 创建并激活虚拟环境
+python -m venv venv
+source venv/bin/activate  # Windows 用户使用 venv\Scripts\activate
+
+# 2. 安装所需依赖
+pip install disnake openai aiofiles pyyaml python-dotenv
+```
+
+</details>
+
+### 3\. 启动 Bot
+
+```bash
+python main.py
+```
+
+当终端输出 `✅ OpenClaw 已登录 (ID: xxxxx)` 时，说明部署成功。数据会自动存储在根目录生成的 `memories` 文件夹与 `config.yaml` 中。
+
+-----
+
+## 🎮 核心指令指南 (Commands)
+
+在 Discord 频道内输入 `/` 即可唤出指令列表：
+
+### 用户基础控制
+
+  - `/forget_me` - 彻底销毁 AI 对你的跨服全局人物画像。
+  - `/shut_up` - 强行让机器人在当前频道闭嘴 5 分钟。
+
+### 频道与管理员控制 (需管理员或白名单权限)
+
+  - `/activate` - 在当前频道激活 AI 监听与自主回复引擎。
+  - `/deactivate` - 停止当前频道的监听。
+  - `/set_api` - 为当前服务器配置独立的大模型名称、API Key 或 Base URL（默认读取全局 `.env`）。
+  - `/config` - 查看或修改频道的触发阈值、记忆长度等底层参数。
+  - `/whois` - 查询后台记录的用户 ID 与多群组昵称对照表。
+
+### 记忆系统干预
+
+  - `/memorize` - 手动强制触发一次当前频道的“短期上下文 -\> 历史事件”打包。
+  - `/distill` - 手动强制将历史事件提炼、进化为全局人物画像。
+  - `/clear` - 格式化当前频道的所有历史记忆与上下文。
+  - `/retrieve_history` - 从频道的过往历史消息中批量追溯并提取事件记忆。
 
 -----
 
@@ -98,106 +173,37 @@ graph TD
 OpenClaw 的成长深受以下项目的启发，我们将其视为探索数字生命边界的同路人：
 
   * [**Project AIRI**](https://github.com/moeru-ai/airi) - 优秀的 AI Waifu 灵魂容器，重新定义了数字生命的呈现。
-  * [**MetaGPT**](https://github.com/geekan/MetaGPT) - 启发了我们关于多智能体协作与复杂任务处理的认知架构。
-  * [**Gemini**](https://deepmind.google/technologies/gemini/) - 为本项目提供了卓越的多模态理解与长文本推理能力支持。
+  * [**MetaGPT**](https://github.com/geekan/MetaGPT) - 启发了关于多智能体协作与复杂任务处理的认知架构。
   * [**elizaOS**](https://github.com/elizaOS/eliza) - 极具参考价值的 Agent 框架设计。
   * [**Neuro-sama**](https://www.youtube.com/@Neurosama) - 永远的灵感源泉与行业标杆。
 
 -----
 
-## � 快速开始 (Getting Started)
-
-### 邀请 Bot 到你的服务器
-1. 访问 [Discord 邀请链接](https://discord.gg/uyrms6cv5z)
-2. 选择要邀请的服务器
-3. 授予必要的权限
-4. 开始与 Stelle 互动！
-
-### 基础命令
-- `/start` - 初始化与 Stelle 的互动
-- `/forget_me` - 删除所有关于你的个人数据
-- `/help` - 查看完整命令列表
-- `/status` - 查看 Stelle 的实时状态
-
----
-
-## 💡 使用建议 (Usage Tips)
-
-- **自然对话**：Stelle 喜欢自然的日常对话，避免过于机械的指令。
-- **长期互动**：越经常互动，Stelle 对你的了解越深入，交流体验越丰富。
-- **尊重个性**：Stelle 有自己的脾气和偏好，就像真实的伙伴一样。
-- **社区体验**：在群组中与他人和 Stelle 一起创造故事，效果最佳。
-
----
-
-## 📦 部署与开发 (Deployment & Development)
-
-### 系统要求
-- Python 3.10+
-- Discord.py 库
-- LLM API 密钥（Gemini 或兼容接口）
-
-### 本地部署（等待开源）
-目前源代码在 Stars 达到 1,000 时会开放。敬请期待！
-
----
-
-## 📝 更新日志 (Changelog)
-
-### v1.0.0 (当前版本)
-- ✨ 首次公开发布
-- 🧠 完整的三层记忆系统
-- 🎭 自主决策引擎
-- 🛡️ 安全与隐私保护
-- 📊 实时情绪感知
-
----
-
 ## 🤝 社区与贡献 (Community & Contributing)
 
-### 反馈与建议
-- **Discord 社区**：[加入我们的服务器](https://discord.gg/uyrms6cv5z)
-- **问题报告**：请在 GitHub Issues 中提交
-- **功能请求**：欢迎在讨论区分享你的想法
+本项目已全面开源！我们热烈欢迎各种形式的贡献：
 
-### 贡献方式
-当项目开源后，我们欢迎以下形式的贡献：
-- 🐛 Bug 修复
-- ✨ 新功能实现
-- 📚 文档改进
-- 🌍 本地化翻译
+  - 🐛 **Bug 修复**：提交 Issue 或 PR 修复本地文件系统锁争用或异步处理问题。
+  - ✨ **新功能**：例如增加视觉多模态支持、接入更丰富的外部记忆数据库等。
+  - 🌍 **本地化翻译**：完善中、英、日等多语言支持。
 
----
+欢迎加入我们的 [Discord 社区](https://discord.gg/uyrms6cv5z) 参与技术讨论！
+
+-----
 
 ## 📄 许可证 (License)
 
-本项目采用 MIT License。详见 [LICENSE](LICENSE) 文件。
+本项目采用 MIT License。详见 [LICENSE](https://www.google.com/search?q=LICENSE) 文件。
 
----
+-----
 
 ## 🛡️ 隐私与安全 (Privacy & Security)
 
 OpenClaw 遵循以下原则：
-- 🔒 用户数据加密存储
-- 🗑️ 完全删除功能（`/forget_me`）
-- 📋 透明的数据使用政策
-- ⚖️ 严格的内容审核标准
 
----
-
-## 📞 联系方式 (Contact)
-
-- **Discord**: [官方社区](https://discord.gg/uyrms6cv5z)
-- **GitHub**: [项目地址](https://github.com/OopsYouDiedE/OpenClawDiscord)
-- **文档**: [Wiki 文档](https://github.com/OopsYouDiedE/OpenClawDiscord/wiki)
-
----
-
-## 🌟 致谢 (Special Thanks)
-
-感谢所有支持 Stelle 成长的用户。你们的陪伴和反馈是推动项目发展的动力。
-
-> 让我们一起构建一个更美好的数字生命未来。
+  - 所有用户画像与事件日志均以 `.md` 纯文本格式储存于本地。
+  - 提供真正的被遗忘权（`/forget_me` 将彻底删除关联的本地文件）。
+  - 严格的权限校验机制，敏感指令仅限服务器管理员可用。
 
 -----
 
@@ -210,4 +216,3 @@ Made with ❤️ by <a href="https://www.google.com/search?q=https://github.com/
 <img src="https://api.star-history.com/svg?repos=OopsYouDiedE/OpenClawDiscord&type=Date" alt="Star History Chart">
 </a>
 </p>
-
